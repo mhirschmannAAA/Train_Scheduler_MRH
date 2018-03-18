@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Schedule - MRH</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+
+    <style>
+        .panel-body a {
+          word-break: break-all;
+          font-weight: bold;
+          border: 2px solid blue;
+        }
+        .articleHeadline {
+          line-height: 1.5;
+          
+        }
+            td, th {
+            border: 2px solid blue;
+            text-align: left;
+            margin-left: 10px;
+            padding: 10px;
+            
+        }
+        #currentEmp {
+            color: white;
+            background: blue;
+            font-size: 20px;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        } 
+        table {
+            /* margin-left: 50px; */
+            width: 98%;
+            margin-left: 15px;
+            
+        } 
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Jumbotron for Title -->
+        <div class="jumbotron" style="background-color:blue ; color: white;">
+          <h1 class="text-center">
+            <strong>Not So Lucky Trian Times</strong>
+          </h1>
+          <h4 class="text-center">Chug-a-Chug Beer Train</h4>
+        </div>
+    
+    <div id="currentEmp">Current Train Schedule</div>
+
+    <div class="row">
+        <table>
+            <tr>
+            <th>Train Name</th>
+            <th>Destination</th>
+            <th>Frequency (min)</th>
+            <th>Next Arrival</th>
+            <th>Minutes Away</th>
+            </tr>
+    
+            <tr>
+            <td>Guiness Express</td>
+            <td>Dublin</td>
+            <td>25</td>
+            <td>00:30 PM</td>
+            <td>16</td>
+            </tr>
+        </table>
+    </div>
+
+        <!-- Row for Searching New York Times -->
+        <div class="row">
+          <div class="col-sm-12">
+            <br>
+            <!-- First panel is for handling the search parameters -->
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <div id="currentEmp" style="background-color:blue ; color: white;">Add Train</div>
+
+              </div>
+              <div class="panel-body">
+    
+                <!-- Here we create an HTML Form for handling the inputs-->
+                <form role="form">
+    
+                  <!-- Here we create the text box for capturing the search term-->
+                  <div class="form-group">
+                    <label for="name">Train Name</label>
+                    <input type="text" class="form-control" id="employee-name">
+                  </div>
+    
+                  <!-- Here we capture the number of records that the user wants to retrieve  -->
+                  <div class="form-group">
+                    <label for="role">Destination</label>
+                    <input type="text" class="form-control" id="role">
+                  </div>
+    
+                  <!-- Here we capture the Start Year Parameter-->
+                  <div class="form-group">
+                    <label for="start-date">First Train Time (HH:mm military time)</label>
+                    <input type="text" class="form-control" id="start-year">
+                  </div>
+    
+                  <!-- Here we capture the End Year Parameter -->
+                  <div class="form-group">
+                    <label for="month-rate">Frequency (min)</label>
+                    <input type="text" class="form-control" id="month-rate">
+                  </div>
+    
+                  <!-- Here we have our final submit button -->
+                  <button id="add-user" type="submit">Submit</button>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+      <!-- jQuery JS -->
+      <script src="https://code.jquery.com/jquery.js"></script>
+
+      <!-- JQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            // Initialize Firebase
+        
+        var config = {
+            apiKey: "AIzaSyB1Oaimyr2cZm5K2gjhA6woIm-W0TiFRik",
+            authDomain: "employeedatamanagement-6a444.firebaseapp.com",
+            databaseURL: "https://employeedatamanagement-6a444.firebaseio.com",
+            projectId: "employeedatamanagement-6a444",
+            storageBucket: "",
+            messagingSenderId: "486552264273"
+        };
+        firebase.initializeApp(config);
+        
+        var database = firebase.database();
+
+        var name = "";
+        var role = "";
+        var start = "";
+        var month = "";
+
+        $("#add-user").on("click", function(){
+            event.preventDefault();
+
+            var name = $("#employee-name").val().trim();
+            var role = $("#role").val().trim();
+            var start = $("#start-year").val().trim();
+            var month = $("#month-rate").val().trim();
+
+            database.ref().set({
+                name: name,
+                role: role,
+                start: start,
+                month: month
+            });
+        });
+
+        database.ref().on("value", function(snapshot){
+
+            console.log(snapshot.val());
+        })
+
+        </script>
+        
+</body>
+</html>
